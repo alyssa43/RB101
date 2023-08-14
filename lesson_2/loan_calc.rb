@@ -1,72 +1,79 @@
 require 'yaml'
 MESSAGES = YAML.load_file('loan_calc_messages.yml')
+MONTHS_IN_YEAR = 12
 
 def valid_number?(num)
-	(num.to_f.to_s == num) || (num.to_i.to_s == num)
+  ((num.to_f.to_s == num) || (num.to_i.to_s == num)) && num.to_f > 0.0
+end
+
+def apr_to_mpr(apr)
+  (apr.to_f / MONTHS_IN_YEAR) / 100
+end
+
+def years_to_months(years)
+  years.to_f * MONTHS_IN_YEAR
 end
 
 def monthly_payment(loan, int, dur)
-	(loan * (int / (1 - (1 + int)**(-dur)))).round(2)
+  (loan * (int / (1 - ((1 + int)**(-dur))))).round(2)
 end
 
 name = ''
 puts MESSAGES['welcome']
 
 loop do # name loop
-	name = gets.chomp.capitalize
+  name = gets.chomp.capitalize
 
-	if name.empty?
-		puts MESSAGES['valid_name']
-	else 	
-		break
-	end
+  if name.delete(" ").empty?
+    puts MESSAGES['valid_name']
+  else
+    break
+  end
 end
 
 puts "#{MESSAGES['greet']}, #{name}!"
 
 loop do # main loop
+  loan_amount = ''
 
-	loan_amount = ''
-	loop do # loan amount loop
-		puts MESSAGES['input_loan']
-		loan_amount = gets.chomp.delete_prefix("$").delete_suffix(".00").delete(",")
+  loop do # loan amount loop
+    puts MESSAGES['input_loan']
+    loan_amount = gets.chomp.delete_prefix("$").delete_suffix(".00").delete(",")
 
-		break if valid_number?(loan_amount)
+    break if valid_number?(loan_amount)
 
-		puts MESSAGES['valid_number']
-	end
+    puts MESSAGES['valid_number']
+  end
 
-	apr = ''
-	loop do # apr loop
-		puts MESSAGES['input_apr']
-		apr = gets.chomp.delete("%").delete_suffix(".0").delete_suffix(".00")
+  apr = ''
 
-		break if valid_number?(apr)
+  loop do # apr loop
+    puts MESSAGES['input_apr']
+    apr = gets.chomp.delete("%").delete_suffix(".0").delete_suffix(".00")
 
-		puts MESSAGES['valid_number']
-	end
+    break if valid_number?(apr)
 
-	loan_duration = ''
-	loop do # loan duration loop
-		puts MESSAGES['input_duration']
-		loan_duration = gets.chomp
+    puts MESSAGES['valid_number']
+  end
 
-		break if valid_number?(loan_duration)
+  loan_duration = ''
 
-		puts MESSAGES['valid_number']
-	end
+  loop do # loan duration loop
+    puts MESSAGES['input_duration']
+    loan_duration = gets.chomp
 
-	monthly_int = (apr.to_f / 12) / 100  # Converting APR to monthly interest rate, and from string to float
-	loan_duration = loan_duration.to_f * 12 # Converting years to months, and from string to float
-	loan_amount = loan_amount.to_f # Converting string to float
-	payment = monthly_payment(loan_amount, monthly_int, loan_duration) # Saving monthly payment amount to a variable
+    break if valid_number?(loan_duration)
 
-	puts "#{name}, #{MESSAGES['payment_display']} #{format("$%.2f", payment)}"
-	puts "#{MESSAGES['go_again']}" 
-	puts "#{MESSAGES['yes_or_no']}"
-	answer = gets.chomp.downcase
-	puts answer[0]
-	break if answer[0] == 'n'
+    puts MESSAGES['valid_number']
+  end
+
+  payment = monthly_payment(loan_amount.to_f, apr_to_mpr(apr),
+                            years_to_months(loan_duration))
+
+  puts "#{name}, #{MESSAGES['payment_display']} #{format('$%.2f', payment)}"
+  puts MESSAGES['go_again']
+  answer = gets.chomp.downcase
+  break unless answer.start_with?('y')
 end
 
-puts "#{MESSAGES['thank_you']} #{name}. #{MESSAGES['goodbye']}"
+puts "#{MESSAGES['thank_you']} #{MESSAGES['goodbye']}, #{name}!"
