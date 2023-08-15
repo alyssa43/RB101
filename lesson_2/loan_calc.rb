@@ -122,7 +122,7 @@ loop do # main loop
   monthly_interest = apr_to_mpr(apr)
   loan_duration_months = years_to_months(loan_duration_years)
   payment_amount = monthly_payment(loan_amount, monthly_interest,
-                                   loan_duration_months)				
+                                   loan_duration_months)
 
   clear_screen
 
@@ -131,7 +131,7 @@ loop do # main loop
 
   break unless prompt_go_again?
 
-	clear_screen
+  clear_screen
 end
 
 clear_screen
