@@ -80,8 +80,21 @@ def prompt_loan_duration
   end
 	loan_duration
 end
-
-
+   
+def loan_summary_message(user_name, loan_amount, apr, loan_duration_years, payment_amount)
+   <<~OUTPUT
+   \n=>#{user_name}, #{MESSAGES['loan_summary']} #{format('$%.2f', loan_amount)}
+   #{MESSAGES['apr_summary']} #{apr}%, #{MESSAGES['duration_summary']} #{loan_duration_years} #{MESSAGES['years']};
+   #{MESSAGES['payment_display']} #{format('$%.2f', payment_amount)}.\n
+   OUTPUT
+end
+   
+def prompt_go_again?
+   puts MESSAGES['go_again'] + "\n"
+   answer = gets.chomp.downcase
+   answer.start_with?('y')
+end
+   
 puts MESSAGES['welcome'] + "\n"
 puts MESSAGES['begin'] + "\n"
 puts MESSAGES['input_name'] + "\n"
@@ -100,14 +113,11 @@ loop do # main loop
 	loan_duration_months = years_to_months(loan_duration_years)
   payment_amount = monthly_payment(loan_amount, monthly_interest,
                             loan_duration_months)
+   
+  puts loan_summary_message(user_name, loan_amount, apr, loan_duration_years, payment_amount)
 
-	puts "#{user_name}, #{MESSAGES['loan_summary']} #{format('$%.2f', loan_amount)}," + "\n"
-	puts "#{MESSAGES['apr_summary']} #{apr}%, #{MESSAGES['duration_summary']} #{loan_duration_years} #{MESSAGES['years']};" + "\n"
-	puts "#{MESSAGES['payment_display']} #{format('$%.2f', payment_amount)}." "\n"
-
-  puts MESSAGES['go_again'] + "\n"
-  answer = gets.chomp.downcase
-  break unless answer.start_with?('y')
+   break unless prompt_go_again?
+   
 end
 
 puts "#{MESSAGES['thank_you']} #{MESSAGES['goodbye']}, #{user_name}!" + "\n"
