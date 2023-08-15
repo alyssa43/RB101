@@ -2,6 +2,10 @@ require 'yaml'
 MESSAGES = YAML.load_file('loan_calc_messages.yml')
 MONTHS_IN_YEAR = 12
 
+def clear_screen
+  Gem.win_platform? ? (system 'cls') : (system 'clear')
+end
+
 def valid_number?(num)
   ((num.to_f.to_s == num) || (num.to_i.to_s == num))
 end
@@ -98,11 +102,15 @@ def prompt_go_again?
   answer.start_with?('y')
 end
 
+clear_screen
+
 puts "#{MESSAGES['welcome']}\n"
 puts "#{MESSAGES['begin']}\n"
 puts "#{MESSAGES['input_name']}\n"
 
 user_name = prompt_user_name
+
+clear_screen
 
 puts "#{MESSAGES['greet']}, #{user_name}!\n"
 
@@ -114,12 +122,18 @@ loop do # main loop
   monthly_interest = apr_to_mpr(apr)
   loan_duration_months = years_to_months(loan_duration_years)
   payment_amount = monthly_payment(loan_amount, monthly_interest,
-                                   loan_duration_months)
+                                   loan_duration_months)				
+
+  clear_screen
 
   puts loan_summary_message(user_name, loan_amount, apr, loan_duration_years,
                             payment_amount)
 
   break unless prompt_go_again?
+
+	clear_screen
 end
+
+clear_screen
 
 puts "#{MESSAGES['thank_you']} #{MESSAGES['goodbye']}, #{user_name}!\n"
