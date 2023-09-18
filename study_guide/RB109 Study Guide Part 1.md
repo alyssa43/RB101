@@ -353,7 +353,7 @@
 
       * `next` - is used to skip the rest of the current iteration. `next` accepts a block as an argument. 
 
-        <i>"When `next` is used in a `loop`, any values following `next` are ignored. In a block however, the expression(s) becomes the return value".</i> 
+        <i>"When `next` is used in a `loop`, any values following `next` are ignored. In a block however, the expression or expresssions becomes the return value".</i> 
 
         <i>"The Ruby Programming Language"</i> - David Flanagan & Yukihiro Matsumoto (page 150) 
 
