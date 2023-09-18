@@ -1,9 +1,8 @@
 <h1>RB109 Study Guide: Part 1</h1>
 
-
 <h3>Explain, talk about, or demonstrate the following:</h3>
 
-* <b>Numbers</b>: Numbers are an immutable data type and can either be an `integer`, which is a number without a decimal point. Or, a `float` which is a number with a decimal point.
+* <b>Numbers</b>: Numbers are an immutable data type. Two forms of numbers are; an `integer`, which is a number without a decimal point. Or, a `float` which is a number with a decimal point.
 
   ```ruby
   34   #integer
@@ -44,6 +43,7 @@
   * <b>`Array#pop`</b> - is a built-in array method that can either take no argument, which will remove the last element of the array, and return that element. It can also have a positive integer as it's argument and it will remove that number of elements and returns those elements in a new array (counting from the end of the array). If the number passed in as an argument is greater than the number of elements in the array, it will remove all elements and returns those in a new array. 
   * <b>`Array#map`</b> - is a built-in array method that accepts a block as it's argument. It returns a new array based on the block's *return value*. Each element is transformed based on the return value. It is an alias for `Array#collect`.
   * <b>`Array#select`</b> - is a built-in array method that accepts a block as it's argument. It returns a new array containing only the elements that the block evaluates as truthy. It is an alias for `Array#filter`.
+  * <b>`Array#each`</b> - is a built-in array method that accepts a block as it's argument. It iterates over each element of the array that it is called on, setting each element to the parameter initialized in the block. Upon completion of iterations, it returns the original array that was iterated over. 
   * <b>`Array#[]`</b> - is a built-in array method that is used to retrieve elements. It can accept a single integer, and will return the element at that index. Or can accept a pair of integers, which will return the elements at the first numbers index through the second numbers index. Or it can accept a range, which will return all the elements at the indexes that correlate to the range passed in as an argument.
   * <b>Array Properties</b>: Arrays are mutable data structures. If you try accessing an index that doesn't exist, `nil` will be returned and there will not be an exception. `-1` refers to the last element in an array, `-2` refers to the second to last element, and so on. 
 
@@ -116,22 +116,15 @@
       (4 == 5) || (5 == 6)  # => false
       ```
 
-  - <b>Operator Precendence</b>: Precedence is used to determine the order of operations to be performed. Operators with higher precedence are evaluated before operators with lower precedence. Precedence is as follows, starting with highest precedence:
+  - <b>Operator Precedence</b>: Precedence is used to determine the order of operations to be performed. Operators with higher precedence are evaluated before operators with lower precedence. Precedence is as follows, starting with highest precedence:
     		* `**` --  Exponentiation
       		* `!` -- The 'not' operator
       		* `* / %` --  Multiplication, Division, Modulo
-      		
       		* `+ -` -- Addition (or concatenation), Subtraction
-      		
       		* `< <= > >=` -- (Comparison) Less Than, Less Than or Equal To, Greater Than, Greater Than or Equal to
-      		
       		* `== !=` -- (Equality) Equal to, Not Equal To
-      		
       		* `&&` -- Logical 'AND' Operator
-      		
-      		* `||` -- Logical 'OR' Operator
-
-    		  
+      		* `||` -- Logical 'OR' Operator  
 
 * <b>Type Conversion</b>: Built-in methods used to convert a value from one data type to another data type.
 
@@ -185,10 +178,12 @@
     ```
 
 * <b>Mutability, Immutability, and Constants</b>: 
+
   * <b>Mutability</b> - Objects in Ruby can either be "Mutable" or "Immutable". Mutable objects (such as `String`(s)) can be mutated, or changed. Immutable objects (such as a `Boolean`, `Integer`, or `nil`), cannot be changed. To change the value of a variable that references an immutable object, must be reassigned. 
-  * <b>Constants</b> - Constants are a type of variable. They are declared with all capital letters and must be initialized in the main program (at the top). Constants have different scope than local variables, they are available throughout the entire program. Constants should be considered immutable, however Ruby allows them to be changed (but it will issue a warning). However, you should never change a constant. They are used to store data that should never have to be changed. 
+  * <b>Constants</b> - Constants are a type of variable. They are declared with all capital letters and must be initialized in the main program (at the top). Constants have different scope than local variables, they are available throughout the entire program. Constants should be considered immutable, however Ruby allows them to be changed (but it will issue a warning). However, you should never change a constant. They are used to store data that should never have to be changed.
 
 * <b>Variables</b>:
+
   * <b>Local Variable and Constant Names</b> - Naming convention for local variables is to use all lowercase letters, with underscores as the spaces. Naming convention for constant variables is to use all uppercase letters, with underscores as the spaces. EX:
 
     ```ruby
@@ -229,7 +224,7 @@
       ```ruby
       n = 10                   				# Output => 1	  
                                       #        	  2
-      [1, 2, 3].each {|n| puts n}     #      			3       # Return value => [1, 2, 3]
+      [1, 2, 3].each {|n| puts n}     #      			3    # Return value => [1, 2, 3]
       ```
 
 * <b>Conditionals and Loops</b>: 
@@ -271,22 +266,22 @@
     * `While` - Using the `while` keyword will create a `loop` that executes <i>while</i> a condition is evaluated as `true`. It can accept a `do`, but it is optional. The return value of a `while` `loop` is `nil`, unless `break` is used to supply a value. EX:
 
       ```ruby
-      coutdown = 3										# Output => 3
-      																#						2
-      while countdown > 0							#						1
+      coutdown = 3											# Output => 3
+      																	#						2
+      while countdown > 0								#						1
         puts countdown
         countdown -= 1								
-      end															# Return Value => nil
+      end																# Return Value => nil
       ```
 
       ```ruby
-      countdown = 3									# Output => 3
+      countdown = 3											# Output => 3
       																				
       while countdown > 0 do										
         puts countdown
         countdown -= 1
         break countdown
-      end														# Return Value => 2
+      end																# Return Value => 2
       ```
 
     * `Do/While` - A `do/while` `loop` is similar to the `while` loop, the major difference being that the condtional check is at the end of the `loop`. Meaning that the `loop` gets executed once before checking that the condition evaluates as `true`. An important distinction to remember is that Ruby doesn't have a built in `do..while` `loop`, it is essentially just a simple `Kernel#loop` method, with a `while` condition inside the `loop`, that tells the code when to `break` out of the `loop`. The return value of an `do/while` `loop` is `nil`, unless `break` is used to supply a value. EX:
@@ -319,8 +314,6 @@
         break countdown
       end													# Return Value => nil
       ```
-
-      
 
     * `For` - The `for` `loop` works similarly to using the `Array#each` method. It consists of the keyword <u>`for`</u>, followed by a <u>variable</u> to contain the element being iterated, followed by the keyword <u>`in`</u>, and then the <u>collection</u> to be iterated through. The `for` `loop` also accepts an optional `do` keyword. The result value of a `for` loop is the value of the collection being iterated over, unless the `break` keyword is used (then it is `nil`). EX:
 
@@ -361,14 +354,26 @@
         next if value.even?
         ```
 
+  * <b>Case Statement</b> - An alternative to writing an `if..else` statement with several conditions to check, is to write a `case` statement. Like the `if..elsif..else` statement, it will evaulate the condition, and if it evaluates as `true` it will then execute the following code, if it evaulates as `false` it will then continue to checking the next condition. It does accept a `else` keyword at the very bottom, if none of the conditions are evaluated as `true`, and it will execute the following code. Like the `if..else` statement, it needs the `end` keyword to signify the end of the `case` statement. EX:
+
+    ```ruby
+    case language
+      when "English" then puts "Hello"
+      when "Spanish" then puts "Hola"
+      when "French" then puts "Bonjour"
+      when "German" then puts "Hallo"
+      else puts "I don't know"
+    end
+    ```
+
 * <b>Puts</b>: `puts` is a method in the `Kernel Module` that stands for "put string". When we invoke `Kernel#puts` it accepts an argument. The argument essentially gets converted with the `.to_s` method, and then outputs that value to the console. `puts` will add a new blank line after the argument to be output. So, if the argument is a collection of multiple elements, those elements will be output on seperate lines. The return value for `Kernel#puts` is <b>always</b> `nil`. EX:
 
   ```ruby
   puts "hello"												# Output => hello					Return Value => nil
   puts 3															# Output => 3							Return Value => nil
   puts [1, 2, 3]											# Output => 1
-  																								2
-                                                  3							Return Value => nil
+  																		#						2
+                                      #           3							Return Value => nil
   ```
 
 * <b>Methods</b>: Methods are a piece of code that perform a specific function. Ruby has built-in methods, as well as allows you to create your own methods. When creating a method, we should aim to keep them short (around 10 lines), and to perform only one function (return a value, or have a side-effect (like output something)).
@@ -376,18 +381,16 @@
   * <b>Definition and invocation</b> - Method definition is when we create a method. We use the `def` keyword followed by the name of the method, then any optional parameters we would like our methods to have (preferably in parentheses). We then put the code we would like our method to perform, followed by the `end` keyword. A method will always return the last line of code inside the method definition, unless explicitly returned elsewhere. To invoke a method we created, we simply type the method's name immediately followed by the arguments we want to pass to it (if any), again preferably in parentheses. It is important to remember that a method is defined with *parameters* and is invoked with *arguments*. EX:
 
     ```ruby
-    def greeting(paramater) # Method Definition										Return Value => nil		
+    def greeting(paramater) # Method Definition									Return Value => nil		
       puts parameter
     end
     
     argument = "hello"
     
-    greeting(argument)			# Method Invocation										Output => hello
+    greeting(argument)			# Method Invocation									Output => hello
     ```
 
-    
-
-  *  <b>Default Parameters</b> - If a method is defined with a parameter, but invoked without an argument it will raise an error. There is a way around this. When we define a method, we can give it default parameters. Meaning that if the method is invoked without any argument, it will use the default parameter. To do this, we put `=` after the paramer, followed by the default value. EX:
+  * <b>Default Parameters</b> - If a method is defined with a parameter, but invoked without an argument it will raise an error. There is a way around this. When we define a method, we can give it default parameters. Meaning that if the method is invoked without any argument, it will use the default parameter. To do this, we put `=` after the paramer, followed by the default value. EX:
 
     ```ruby
     def greeting(parameter="hello")
@@ -410,14 +413,172 @@
     def explicit_return(num1, num2)
       sum = num1 + num2
       return sum
-      puts "The sum is #{sum}"				# This line never gets executed, causing no output
+      puts "The sum is #{sum}"		# This line never gets executed, causing no output
     end
     
     num1 = 1
     num2 = 2
     
-    implicit_return(num1, num2)				# Output => The sum is 3. 		# Return Value => nil
-    explicit_return(num1, num2)				# Output => 									# Return Value => 3
+    implicit_return(num1, num2)			# Output => The sum is 3. 	# Return Value => nil
+    explicit_return(num1, num2)			# Output => 								# Return Value => 3
+    ```
+
+  * <b>Parameters vs. Arguments</b>: When we define a method we use parameters. When we invoke a method we use arguments. The parameter(s) will represent the variable or value we expect to use inside the method. The argument is the actual variable or value that gets passed into the method. EX:
+
+    ```ruby
+    def a_method(parameter)							# Method is defined with the parameter
+      puts parameter
+    end
+    
+    argument = "hello"
+    
+    a_method(argument)									# Method is invoked with the argument
+    ```
+
+  * <b>Output vs. Return Value & Side Effects</b>: When we define a method, we should aim to perform a singular task. This can be either outputing something or returning a value. But we need to make sure it is <b>only one</b> of these tasks. We also want our method's task reflected in the name, so that it is obvious what our method is doing without having to decipher the code inside.
+
+    * Output - If we want our method to output something, that means that something will be print to the console for the user to see. When outputting is the goal, a good method name would be: `display_greeting` or `print_greeting`.
+
+    * Return Value - When our method is used to return a value, we need to make sure that the correct value is being returned, either by explicitly returning the value, or making sure the last line in the method will return the value. When returning a value is the goal, a good method name would be: `total_points` ,`score`, or `sum`.
+
+    * Side Effects - When we refer to a method having a side effect, we mean that the method is either displaying something to the output or it is mutating something outside of the method. 
+
+      ```ruby
+      def display_greeting(str)			# Side effect: displays something to the output
+        puts str										# Return Value => nil
+      end
+      
+      def append(arr, value)				# Side effect: mutates the local variable `arr`
+        arr << value								# Return Value => updated `arr` array
+      end
+      
+      def sum(num1, num2)						# Side effect: none
+        num1 + num2									# Return Value => new integer
+      end
+      ```
+
+  * <b>Pass-by-Reference & Pass-by-Value</b>: We know that Ruby variables are merely references to objects in memory; meaning that a variable is just a given name that points to an object. Passing by reference or passing by value refers to the way these objects are passed around inside our program. Ruby exhibits a combination of behaviors from both "pass-by-reference" as well as "pass-by-value". We can refer to Ruby as "<b>pass by value of the reference</b>". 
+
+    * Pass-by-Value - If an object is passed by value, it means that the original object to be passed is made into a copy and then passed. So essentially we are working with a new object, that is a copy of the original object.  Meaning that anything we do to that copy of the object, does not affect the original object. 
+
+    * Pass-by-Reference - If an object is passed by reference, it means that we are passing a reference to the original object. Meaning that modifying the reference will affect the orginal object. 
+
+    * <b>Pass-by-Refernce-Value</b> - Because Ruby can do both pass-by-value and pass-by-reference, the most accurate way to describe Ruby's object passing strategy would be pass by reference value. Essentially Ruby <i>acts</i> like pass-by-value for immutable objects, and pass by reference for mutable objects. 
+
+      ```ruby
+      def passing_by_val(value)
+        value = "new value"
+      end
+      
+      def passing_by_ref(reference)
+        reference << ", mutating original reference"
+      end
+      
+      var = "hello"
+      
+      puts passing_by_val(var)		# Output => new value	
+      puts var										# Output => hello
+      
+      puts passing_by_ref(var)		# Output => hello, mutating original reference
+      puts var										# Output => hello, mutating orginial reference 
+      ```
+
+  * <b>The Call Stack</b>: The call stack, also known as just 'the stack', is how Ruby organizes and keeps track of the order of execution of methods (and blocks, procs, and lambdas) in a program. The call stack works like a stack of books; you can add stacks to the top, or remove the top book from the stack before continuing down the stack. The call stack puts information about the current method on the top of the stack, then removes that information when the method returns. 
+
+    * Stack Frame - When a program starts running, the call stack initially has one item called a stack frame, which represents the global (top-level) portion of the program. The initial stack frame is sometimes called the "main" method. Ruby uses this frame to keep track of what part off the main program it is currently working on. When program execution reaches a method invocation, the "main" stack Frame is updated with the current program location. Then Ruby creates a new stack frame for the next method invocation and it is <b>pushed</b> onto the top of the stack. This continues on through the entire program until it has pushed on all methods that have been called. Ruby then evaluates and returns the top of the stack, that frame then gets <b>popped</b> from the call stack, then execution resumes immediately on the next frame, until it works it's way down the stack until it gets back to the "main" frame. Once back at the main frame, there is no more code to run and the "main" frame gets popped from the stack and the program ends. 
+
+      <i>The call stack has a limited size that varies based on the Ruby implementation. That size is usually sufficient for more than 10,000 stack entries. If the stack runs out of room, you will see a "SystemStackError" exception.</i>
+
+      ```ruby
+      1		def first_method																										
+      2	  	puts "first method"																								
+      3		end																																
+      4
+      5		def second_method
+      6	  	first_method
+      7	  	puts "second method"
+      8		end
+      9
+      10	second_method
+      ```
+
+      |      Call Stack       |
+      | :-------------------: |
+      |  puts "first method"  |
+      | first_method: line 2  |
+      | second_method: line 6 |
+      |     main: line 10     |
+
+* <b>Expressions & Return</b>: An expression is a piece of code to be evaluated. Pretty much any line of code you write in Ruby, is an expression. All expressions return a value, even if that is `nil` or an exception. It important to remember that expressions <b>do</b> something, but they also <b>return</b> something. And that value that is returned is not necessarily the action that was performed. EX:
+
+  ```ruby
+  puts "Hello World" 			#	Output => Hello World				# Return Value => nil				
+  puts 2 + 2							# Output => 4									# Return Value => nil
+  
+  p "Hello World"					# Output => Hello World				# Return Value => "Hello World"
+  p 2 + 2									# Output => 4									# Return Value => 4
+  ```
+
+* <b>Miscellaneous Coding Tips to Remember</b>: 
+
+  * Index Assignment is Mutating - This looks exactly like assignment, which is non-mutating. But it is, in fact, mutating. `#[]=` modifies the original object (`String`, `Array`, or `Hash`). EX:
+
+    ```ruby
+    string = "hello"
+    string[3] = "x"
+    string 							# Return Value => "helxo"
+    
+    array = [1, 2, 3, 4, 5]
+    array[3] = "x"
+    array								# Return Value => [1, 2, 3, "x", 5]
+    
+    hash = {a: 1, b: 2, c: 3, d: 4, e: 5}
+    hash[:c] = "x"
+    hash								# Return Value => {:a=>1, :b=>2, :c=>"x", :d=>4, :e=>5}
+    ```
+
+    However, be careful to distinguish `String#[]=` from `String#[]`. `String#[]` does NOT mutate, it returns a new string or `nil`. EX:
+
+    ```ruby
+    string = "hello"
+    string[3] << "x"					# This line has a return value of => "lx"
+    string										# Return Value => "hello"
     ```
 
     
+
+  * Do NOT mutate the caller during iteration - Do NOT mutate a collection while iterating through it. It will cause unexpected behavior:
+
+    ```ruby
+    words = %w(scooby doo on channel two)
+    
+    words.each {|str| words.delete(str)}
+    
+    p words									# Output => ["doo", "channel"]
+    ```
+
+    However, you can mutate the individual elements within the collection. EX:
+
+    ```ruby
+    words = %w(scooby doo on channel two)
+    
+    words.each {|str| str << "!"}
+    
+    p words						# Output => ["Scooby!", "doo!", "on!", "channel!", "two!"]
+    ```
+
+  * When a local variable is initialized within a conditional clause, and that clause doesn't get executed, that local variable will reference `nil`. EX:
+
+    ```ruby
+    name = "Alyssa"
+    
+    if name == "Alyssa"
+      last_name = "Easter"
+    else
+      middle_name = "Kate"
+    end
+    
+    p name										# Output => Alyssa
+    p last_name								# Output => Easter
+    p middle_name							# Output => nil
+    ```
