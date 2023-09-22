@@ -184,7 +184,7 @@
 
 * <b>Variables</b>:
 
-  * <b>Local Variable and Constant Names</b> - Naming convention for local variables is to use all lowercase letters, with underscores as the spaces. Naming convention for constant variables is to use all uppercase letters, with underscores as the spaces. EX:
+  * <b>Local Variable and Constant Names</b> - Naming convention for local variables is to use snake_case which is all lowercase letters, with underscores as the spaces. Naming convention for constant variables is to use all uppercase letters, with underscores as the spaces. EX:
 
     ```ruby
     local_variable_name
@@ -207,7 +207,7 @@
 
     * <b>Variable Scope</b> - A variables scope refers to where in the program that variable is accessible. Local variables obey all scope boundaries, meaning they are only accessible in the scope where it was initialized (except for blocks). The only way to access a local variable initialized outside of a method definition, is to pass it as an argument during method invocation.  Constant variables are said to have lexical scope. They can be accessed throughout the entire program. (Global variables - available throughout entire app, overriding all scope boundaries. Class variables - accessible by instances of your class. Instance variables - available throughout the current instance of the parent class.)
 
-    * <b>Method Definitions</b> - A method is a piece of code that either returns a value, or has side-effects (meaning it displays something, or mutates an object). A method should only have one of these functions. In general, if a method has side-effects as well as returns a meaningful value, that is a red flag. A method can be used multiple times, so are helpful to keep from being redundant. Method's should be relatively short (10 lines). To define a method you use the `def` keyword, followed by the method name, followed by any arguments (which is optional)(preferably in parentheses), then the `end` keyword on the next line. Inside those lines is where you will put your code that you wish for your method to execute. Unless explicitly stated, the method will <u>always</u> return the last line inside the method definition. EX: 
+    * <b>Method Definitions</b> - A method is a reusable piece of code in our program that performs a specific task, or outputs something. A method should only perform one function. In general, if a method outputs something (has side-effects) as well as returns a meaningful value, that is a red flag. A method can be used multiple times, so they are helpful to keep from being redundant. Method's should be relatively short (10 lines). To define a method you use the `def` keyword, followed by the method name, followed by any arguments (which is optional)(preferably in parentheses), then the `end` keyword on the next line. Inside those lines is where you will put your code that you wish for your method to execute. Unless explicitly stated, the method will <u>always</u> return the last line inside the method definition. EX: 
 
       ```ruby
       	def method_name(parameter)
@@ -219,7 +219,7 @@
 
     * <b>Variables as Pointers</b> - Variables as pointers refers to the concept that variables don't actually contain the value that they are assigned to, rather they *point* to an <u>address space</u> in memory. Some operations mutate the address space, while other reassign the variable to point to a different address space. 
 
-    * <b>Variable Shadowing</b> - Variable shadowing occurs during method invocation, when the method accepts a block as an argument, and that block has an argument that has the same name as an outer scoped local variable. Because blocks can access outer scoped local variables, if a local variable and the parameter that has been defined inside the block, share the same name, we essentially cannot access the local variable because the block will use the parameter and ignore the outer scoped variable. EX:
+    * <b>Variable Shadowing</b> - Variable shadowing occurs during method invocation, when the method accepts a block as an argument, and that block has a parameter that has the same name as an outer scoped local variable. Because blocks can access outer scoped local variables, if a local variable and the parameter that has been defined inside the block, share the same name, we essentially cannot access the local variable because the block will use the parameter and ignore the outer scoped variable. EX:
 
       ```ruby
       n = 10                   				# Output => 1	  
