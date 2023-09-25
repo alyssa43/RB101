@@ -58,13 +58,63 @@
   	
   	* `/` : Division - Divides the first operand by the second operand.
   	
-  	* `%` : Modulus - Returns the remainder, when the first operand is divided by the second operand.
+  	* `%` : Modulus - The `Numeric#%` method is an alias for the `Numeric#modulo` method. It can be invoked two different ways:
     
-  	* `divmod` : Divmod - returns a 2 element array where the first element is the quotient and the second element is the remainder. EX: 
+  	  ```ruby
+  	  x = dividend # Number being divided
+  	  y = divisor	 # Number of times dividend gets divided
+  	  
+  	  x % y       
+  	  x.modulo(y) 
+  	  ```
+  	
+  	  Although we can say that the `Numeric#modulo` method will return the remainder of the dividend (`x`) divided by the divisor `(y`), it is different than the `Numeric#remainder` method. 
+  	
+  	  The `Numeric#modulus` method and the`Numeric#remainder` method are very similar, but they do have different operations and will sometimes return differing results. Both the `Numeric#modulo` method and the `Numeric#remainder` method evaluate the operation: 
+  	
+  	  `x - y * (x / y)`. However they then invoke different methods on those values:
   	
   	  ```ruby
-  	  12.divmod(4) # => [3, 0] 
-  	  11.divmod(4) # => [2, 3]
+  	  value = x - y * (x / y)
+  	  modulo = value.floor
+  	  remainder = value.truncate
+  	  ```
+  	
+  	  The differences between the two methods is that `Numeric#modulo` takes that value and calls the `#floor` method on it, and the `Numeric#remainder` method takes that value and calls the `#truncate` method on it. For positive numbers, the return values of invoking the `Numeric#modulo` method and the `Numeric#remainder` method will be the same. You will start to see differing results when working with negative numbers. The `Numeric#modulo` return value will always have the same sign as the divisor (`y`), while the `Numeric#remainder` return value will always have the same sign as the dividend (`x`). Meaning that the return value of invoking the `Numeric#modulo`(`Numeric#%`) method, will return an `Integer` or `Float` that is the same sign as the argument passed to it. EX:
+  	
+  	  ```ruby
+  	  10 % 3   # 10.modulo(3)   => 1		10.remainder(3)  => 1
+  	  -10 % 3  # -10.modulo(3)  => 2		-10.remainder(3)  => -1
+  	  -10 % -3 # -10.modulo(-3) => -1		-10.remainder(-3)  => -1
+  	  10 % -3  # 10.modulo(-3)  => -2		10.remainder(-3)  => 1
+  	  ```
+  	
+  	* `divmod` : Divmod - When invoked, the `Numeric#divmod` method takes one argument. The caller is the dividend, while the argument is the divisor. For instance, in the below example `x` (the dividend) will be divided by `y` (the divisor): 
+  	
+  	  ```ruby
+  	  x = dividend # Number being divided
+  	  y = divisor	 # Number of times dividend gets divided
+  	  
+  	  
+  	  x.divmod(y)
+  	  ```
+  	
+  	  Then returned will be an `Array` with two elements, the first element being the quotient. The quotient's value is the largest whole number when the dividend (`x`) is divided by the divisor (`y`). Meaning the element at the  `0` index within the returned `Array` will always be an `Integer`. The element at the `1` index within the returned `Array` will be the modulus, which is the value of invoking the `Numeric#modulo` method on the dividend and divisor; like so: 
+  	
+  	  ```ruby 
+  	  x.modulo(y) || x % y
+  	  ```
+  	
+  	  EXAMPLES:
+  	
+  	  ```ruby
+  	  # x.divmod(y)    => [quotient, modulo]
+  	  12.divmod(4)     => [3, 0]
+  	  12.divmod(3)     => [4, 0]
+  	  12.divmod(5)     => [2, 2]
+  	  -11.5.divmod(4)  => [-3, 0.5]
+  	  11.5.divmod(-4)  => [-3, -0.5]
+  	  -11.5.divmod(-4) => [2, -3.5]
   	  ```
   	
   	* `**` : Exponentiation - Raises the first operand to the power of the second operand. EX:
@@ -72,23 +122,23 @@
   	  ```ruby
   	  2 ** 3 # => 8
   	  ```
-
+  
   - <b>String Operators</b>: Used to combine strings.
-
+  
     * `+` : Used to concatenate strings. EX: 
-
+  
       ```ruby
       'hello' + ' ' + 'world' # => "hello world"	
       ```
-
+  
     * `*` : Used to return a new string that consists of the first operand, which is the string. (THE STRING MUST GO BEFORE `*` ). Which will then be returned the number of times that is equal to the second operand. EX: 
-
+  
       ```ruby
       "hi" * 3 # => "hihihi"
       ```
-
+  
   - <b>Conditional Operators</b>: Used to compare two values. All of these operators are methods, and they <u>return a boolean value</u>.
-
+  
     * `==` : Equal to - Returns `true` if both operands are equal to each other. Returns `false` if operands are not equal to each other.
     * `!=` : Not Equal to - Returns `true` if operands are NOT equal to each other. Returns `false` if operands are equal to each other. 
     * `<` : Less Than - Returns `true` if first operand is less than the second operand. Returns `false` if first operand is greater than the second operand. 
@@ -96,26 +146,26 @@
     * `<=` : Less Than OR Equal To - Returns `true` if first operand is less than OR equal to the second operand. Returns `false` if first operand is greater than the second operand. 
     * `>=` : Greater Than OR Equal To - Returns `true` if first operand is greater than OR equal to the second operand. Returns `false` if first operand is less than the second operand. 
     * `condition ? true : false` : Ternary Operator - A single line `if/else` statement. Ruby first evaluates the condition to the left of the `?`. If the condition <u>evaluates as</u> `true`, the code to the right of the `?`, but to the left of the `:`, gets executed. If the condition <u>evaluates as</u> `false`, the code directly to the right of the `:` gets executed. Ternary expressions are typically used to select between two values, not to choose between two actions (like printing something).
-
+  
   - <b>Logical Operators and Short-Circuit Evaluations</b>: Evaluates operands to check for truthiness, then executes code respectively.
     * `!` :  The "Not" Operator - Placing `!` before a boolean expression, changes that value to the opposite boolean value. EX: 
       ```ruby
       !(4 == 4) # => false
-
+  
     * `&&` : The Logical "And" Operator - BOTH operands must evaluate to `true`, for the entire expression to be evaluated as `true`. EX:
-
+  
       ```ruby
       (4 == 4) && (5 == 5)  # => true
       (4 == 5) && (5 == 6)  # => false
       ```
-
+  
     * `||` :  The Logical "Or" Operator - Only one operand must evaluate to `true`, for the entire expression to be evaluated as `true`. EX :
-
+  
       ```ruby
       (4 == 4) || (5 == 6)  # => true
       (4 == 5) || (5 == 6)  # => false
       ```
-
+  
   - <b>Operator Precedence</b>: Precedence is used to determine the order of operations to be performed. Operators with higher precedence are evaluated before operators with lower precedence. Precedence is as follows, starting with highest precedence:
     		* `**` --  Exponentiation
       		* `!` -- The 'not' operator
@@ -125,7 +175,7 @@
       		* `== !=` -- (Equality) Equal to, Not Equal To
       		* `&&` -- Logical 'AND' Operator
       		* `||` -- Logical 'OR' Operator  
-
+  
 * <b>Type Conversion</b>: Built-in methods used to convert a value from one data type to another data type.
 
   * `#to_s` - Converts an object to it's string representation. Data types that can call `#to_s` are (but not limited to): 
